@@ -1,6 +1,8 @@
 # `payload-validator`
 
-[![npm version](https://badge.fury.io/js/payload-validator.svg)](https://www.npmjs.com/package/payload-validator)
+[![npm version](https://badge.fury.io/js/@dobuki%2Fpayload-validator.svg)](https://www.npmjs.com/package/@dobuki/payload-validator)
+
+[![License](https://img.shields.io/github/license/jacklehamster/payload-validator)](https://github.com/jacklehamster/payload-validator)
 
 `payload-validator` is a simple and efficient library for signing and validating payloads using a secret. It ensures the integrity of your data by generating and checking signatures based on the content of the payload and a provided secret.
 
