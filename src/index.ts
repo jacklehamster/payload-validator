@@ -1,16 +1,16 @@
 import stringify from "json-stable-stringify";
-import shajs from "sha.js";
+import jsSHA from "jssha";
 
-type SignedPayload = Object & {
+type SignedPayload = any & {
   signature?: string;
 }
 
 function getPayloadSignature(payload: SignedPayload, secret: string) {
   const json = stringify({...payload, signature: undefined});
-  return shajs('sha256')
+  return new jsSHA("SHA-256", "TEXT", { encoding: "UTF8" })
     .update(json)
     .update(secret)
-    .digest("base64url");
+    .getHash("B64");
 }
 
 export function signedPayload(payload: SignedPayload, secret: string = "") {

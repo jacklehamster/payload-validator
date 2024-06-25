@@ -30,7 +30,9 @@
     "test": "bun test",
     "build": "bun i && rm -rf *.tsbuildinfo && rm -rf dist/*.* && bun run bundler/bundler.ts && bun run test && bun run build:declaration",
     "build:declaration": "tsc --emitDeclarationOnly --project tsconfig.types.json",
-    "auto-publish": "npm explore @dobuki/auto-publish -- bun run auto-publish \"$(pwd)\""
+    "auto-publish": "npm explore @dobuki/auto-publish -- bun run auto-publish \"$(pwd)\"",
+    "build:example": "cd example && bun i && bun run build && cd ..",
+    "example": "cd example && bun start && cd .."
   },
   "publishConfig": {
     "access": "public"
@@ -41,13 +43,13 @@
   "devDependencies": {
     "@dobuki/dev-dependencies": "^1.0.16",
     "@types/json-stable-stringify": "^1.0.36",
-    "@types/sha.js": "^2.4.4"
+    "@types/jssha": "^3.0.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
     "json-stable-stringify": "^1.1.1",
-    "sha.js": "^2.4.11"
+    "jssha": "^3.3.1"
   }
 }

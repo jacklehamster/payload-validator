@@ -1,6 +1,6 @@
 import { signedPayload, validatePayload } from './index';
 import stringify from 'json-stable-stringify';
-import shajs from 'sha.js';
+import jsSHA from 'jssha';
 
 describe('signedPayload', () => {
     it('should add a valid signature to the payload', () => {
@@ -9,10 +9,10 @@ describe('signedPayload', () => {
         const signed = signedPayload(payload, secret);
 
         expect(signed.signature).toBeDefined();
-        const expectedSignature = shajs('sha256')
+        const expectedSignature = new jsSHA('SHA-256', "TEXT", { encoding: "UTF8"})
             .update(stringify({...payload, signature: undefined}))
             .update(secret)
-            .digest('base64url');
+            .getHash('B64');
         expect(signed.signature).toEqual(expectedSignature);
     });
 
