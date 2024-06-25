@@ -36,9 +36,23 @@ const HelloComponent = function () {
     updatePayloadSignature();
   }, []);
 
+  const code = useMemo(() => {
+return `
+    const payload = {
+      data: "${data}"
+    };
+
+    const payloadWithSignature = signedPayload(payload, "${secret}");
+
+    //  ... send payloadWithSignature to receiver
+
+    const isValid = validatePayload(payloadWithSignature, "${secret}");
+`;
+  }, [data, secret]);
+
   return <>
     <div>
-      <label htmlFor="data" style={{ marginRight: 8 }}>Original text</label>
+      <label htmlFor="data" style={{ marginRight: 8 }}>Original data</label>
       <input id="data" type="text" onInput={e => setData(e.currentTarget.value)} value={data}></input>
     </div>
     <div>
@@ -49,12 +63,17 @@ const HelloComponent = function () {
       <button type="button" onClick={updatePayloadSignature}>Update payload signature</button>
     </div>
     <div>
-      <label htmlFor="textarea">Payload:</label>
+      <label htmlFor="textarea">Signed payload:</label>
       <textarea id="textarea" style={{ width: 800, height: 200 }} value={payload} onChange={e => setPayload(e.currentTarget.value)}></textarea>
     </div>
     <div>
       <label htmlFor="valid">IsValidSignature:</label>
       <div id="valid">{isValidSignature ? <span style={{color: "green"}}>valid</span> : <span style={{color: "red"}}>invalid</span>}</div>
+    </div>
+    <br></br>
+    <div style={{ whiteSpace: "pre" }}>
+      <label htmlFor="code">Code:</label>
+      <div id="code" style={{ border: "1px solid black" }}>{code}</div>
     </div>
   </>;
 }
