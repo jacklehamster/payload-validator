@@ -40,8 +40,8 @@ Use the `signedPayload` function to sign a payload with a secret:
 
 ```typescript
 const payload = { data: 'example' };
-const secret = 'mysecret';
-const signed = signedPayload(payload, secret);
+const options = { secret: 'mysecret' }; // You can name the secret key anything you want for security
+const signed = signedPayload(payload, options);
 
 console.log(signed);
 // Output: { data: 'example', signature: 'generated-signature' }
@@ -52,7 +52,7 @@ console.log(signed);
 Use the `validatePayload` function to validate a signed payload with a secret:
 
 ```typescript
-const isValid = validatePayload(signed, secret);
+const isValid = validatePayload(signed, options);
 
 console.log(isValid);
 // Output: true
@@ -110,18 +110,18 @@ Returns `true` if the payload is valid, otherwise `false`.
 import { signedPayload, validatePayload } from 'payload-validator';
 
 const payload = { data: 'test' };
-const secret = 'mysecret';
 
-// Signing the payload
-const signed = signedPayload(payload, secret);
+const options = { secret: 'mysecret' }; // You can name the secret key anything you want for security
+const signed = signedPayload(payload, options);
+
 console.log(signed); // { data: 'test', signature: '...' }
 
 // Validating the payload
-const isValid = validatePayload(signed, secret);
+const isValid = validatePayload(signed, options);
 console.log(isValid); // true
 
 // Invalid validation with a wrong secret
-const isValidWrongSecret = validatePayload(signed, 'wrongsecret');
+const isValidWrongSecret = validatePayload(signed, { secret: 'wrongsecret' });
 console.log(isValidWrongSecret); // false
 ```
 

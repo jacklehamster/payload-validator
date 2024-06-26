@@ -16,7 +16,7 @@ describe('signedPayload', () => {
         const noise = Math.floor(Date.now() / TIMEWINDOW_PERIOD);
         const expectedSignature = new jsSHA('SHA-256', 'TEXT', { encoding: 'UTF8' })
             .update(json)
-            .update(options.secret ?? '')
+            .update(stringify(options))
             .update(`${noise}`)
             .getHash('B64');
 
@@ -75,7 +75,7 @@ describe('validatePayload', () => {
         const noise = Math.floor(Date.now() / TIMEWINDOW_PERIOD) + offset;
         const expectedSignature = new jsSHA('SHA-256', 'TEXT', { encoding: 'UTF8' })
             .update(json)
-            .update(options.secret ?? '')
+            .update(stringify(options))
             .update(`${noise}`)
             .getHash('B64');
 
