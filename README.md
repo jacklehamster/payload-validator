@@ -58,6 +58,32 @@ console.log(isValid);
 // Output: true
 ```
 
+## Time Window Mechanism
+
+The library uses a time window mechanism to enhance security. The time window changes every 42 seconds by default, ensuring that the signature is only valid within the current and the previous time window. This adds an additional layer of protection against replay attacks. The time window duration can be customized through the `options` parameter.
+
+### Example with Time Window
+
+```typescript
+import { signedPayload, validatePayload } from 'payload-validator';
+
+const payload = { data: 'test' };
+const options = { secret: 'mysecret', timeWindow: 1000 * 42 };
+
+// Signing the payload
+const signed = signedPayload(payload, options);
+console.log(signed); // { data: 'test', signature: '...' }
+
+// Validating the payload
+const isValid = validatePayload(signed, options);
+console.log(isValid); // true
+
+// Invalid validation with a wrong secret
+ const wrongOptions = { secret: 'wrongsecret', timeWindow: 1000 * 42 };
+ const isValidWrongSecret = validatePayload(signed, wrongOptions);
+ console.log(isValidWrongSecret); // false
+```
+
 ## API
 
 ### `signedPayload(payload: SignedPayload, secret: string = ""): SignedPayload`
