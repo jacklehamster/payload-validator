@@ -106,6 +106,8 @@ Returns `true` if the payload is valid, otherwise `false`.
 
 ## Example
 
+<https://jacklehamster.github.io/payload-validator/example/>
+
 ```typescript
 import { signedPayload, validatePayload } from 'payload-validator';
 
