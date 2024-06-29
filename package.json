@@ -2,7 +2,7 @@
   "name": "@dobuki/payload-validator",
   "module": "src/index.tsx",
   "description": "A simple mechanism for ensuring that a particular JSON payload is legit, using an extra field as signature.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "keywords": [
     "sha",
     "signature",
