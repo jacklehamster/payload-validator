@@ -4,8 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "bun run build && bun run index.ts --watch",
-    "build": "bun i && bun build --target=node ./src/index.tsx --outfile=dist/index.js",
-    "build-icon": "icon-gen -i ../icon.png --ico -o ."
+    "build": "bun i && bun build --target=node ./src/index.tsx --outfile=dist/index.js"
   },
   "devDependencies": {
     "baojs": "^0.2.1",

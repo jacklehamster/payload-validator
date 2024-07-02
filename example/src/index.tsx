@@ -17,12 +17,12 @@ const HelloComponent = function () {
   const updatePayloadSignature = useCallback(() => {
     setPayload(JSON.stringify(signedPayload({
       data: data,
-    } as any, secret), null, "\t"));
+    } as any, {secret}), null, "\t"));
   }, [data, secret])
 
   const isValidSignature = useMemo(() => {
     try {
-      return validatePayload(JSON.parse(payload), secret);
+      return validatePayload(JSON.parse(payload), {secret});
     } catch (e) {
       return false;
     }
