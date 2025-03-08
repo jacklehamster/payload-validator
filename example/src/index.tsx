@@ -13,6 +13,12 @@ const HelloComponent = function () {
   const [data, setData] = useState("");
   const [secret, setSecret] = useState("");
   const [payload, setPayload] = useState("{}");
+  const [time, setTime] = useState(0);
+  const [payloadUpdated, setPayloadUpdated] = useState(0);
+
+  useEffect(() => {
+    setPayloadUpdated(Date.now());
+  }, [payload]);
 
   const updatePayloadSignature = useCallback(() => {
     setPayload(JSON.stringify(signedPayload({
@@ -26,7 +32,16 @@ const HelloComponent = function () {
     } catch (e) {
       return false;
     }
-  }, [payload, secret]);
+  }, [payload, secret, time]);
+
+  useEffect(() => {
+    if (isValidSignature) {
+      const interval = setInterval(() => setTime(Math.floor((Date.now() - payloadUpdated) / 1000)), 500);
+      return () => clearInterval(interval);  
+    } else {
+      setTime(0);
+    }
+  }, [isValidSignature, payloadUpdated]);
 
   useEffect(() => {
     setPayload(previousPayload => JSON.stringify({...JSON.parse(previousPayload), data}, null, "\t"));
@@ -37,17 +52,17 @@ const HelloComponent = function () {
   }, []);
 
   const code = useMemo(() => {
-return `
-    const payload = {
-      data: "${data}"
-    };
+    return `
+        const payload = {
+          data: "${data}"
+        };
 
-    const payloadWithSignature = signedPayload(payload, "${secret}");
+        const payloadWithSignature = signedPayload(payload, "${secret}");
 
-    //  ... send payloadWithSignature to receiver
+        //  ... send payloadWithSignature to receiver
 
-    const isValid = validatePayload(payloadWithSignature, "${secret}");
-`;
+        const isValid = validatePayload(payloadWithSignature, "${secret}");
+    `;
   }, [data, secret]);
 
   return <>
@@ -64,11 +79,12 @@ return `
     </div>
     <div>
       <label htmlFor="textarea">Signed payload:</label>
+      <br></br>
       <textarea id="textarea" style={{ width: 800, height: 200 }} value={payload} onChange={e => setPayload(e.currentTarget.value)}></textarea>
     </div>
     <div>
       <label htmlFor="valid">IsValidSignature:</label>
-      <div id="valid">{isValidSignature ? <span style={{color: "green"}}>valid</span> : <span style={{color: "red"}}>invalid</span>}</div>
+      <div id="valid">{isValidSignature ? <span style={{color: "green"}}>valid</span> : <span style={{color: "red"}}>invalid</span>} <span>{time}s</span></div>
     </div>
     <br></br>
     <div style={{ whiteSpace: "pre" }}>

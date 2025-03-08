@@ -1,7 +1,7 @@
 import stringify from "json-stable-stringify";
 import jsSHA from "jssha";
 
-const TIMEWINDOW_PERIOD = 1000 * 42; // Time window changes every 42 seconds.
+const TIMEWINDOW_PERIOD = 1000 * 5; // Time window changes every 5 seconds.
 
 type SignedPayload = any & {
   signature?: string;
@@ -47,7 +47,8 @@ export function signedPayload(payload: SignedPayload, options: Options = {}): Si
  * @returns True if the payload is valid, otherwise false.
  */
 export function validatePayload(payload: SignedPayload, options: Options): boolean {
-  return options.timeWindow
+  const timeWindow = options.noTimeWindow ? 0 : options.timeWindow ?? TIMEWINDOW_PERIOD;
+  return (timeWindow)
     ? payload.signature === getPayloadSignature(payload, options) || payload.signature === getPayloadSignature(payload, options, -1)
     : payload.signature === getPayloadSignature(payload, options);
 }

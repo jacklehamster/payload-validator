@@ -2,7 +2,7 @@ import { signedPayload, validatePayload } from './index';
 import stringify from 'json-stable-stringify';
 import jsSHA from 'jssha';
 
-const TIMEWINDOW_PERIOD = 1000 * 42;
+const TIMEWINDOW_PERIOD = 1000 * 5;
 
 describe('signedPayload', () => {
     it('should add a valid signature to the payload', () => {
